@@ -1,3 +1,6 @@
-src/files/picturesRu/
-src/files/picturesUs/
+src/files/picturesOldRu/
+src/files/picturesOldUs/
+src/files/picturesNewRu/
+src/files/picturesNewUs/
 target/
+src/files/croppedImages/

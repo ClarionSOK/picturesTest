@@ -2,14 +2,12 @@ package marketgidPictureTest;
 
 import org.junit.Before;
 import org.junit.Test;
-import pictureTester.PictureLoaderRuLogic;
+
 import java.io.IOException;
 
-import static pictureTester.PictureLoaderRuLogic.*;
+import static marketgidPictureTest.PictureLoaderOldLogic.*;
 
-public class PictureLoadTestRu {
-    private static String domainsPath = "src/files/domainsRu.txt";
-    private static String sizesPath = "src/files/sizesRu.txt";
+public class PictureLoaderOldTest {
 
 
     @Before //Forming data arrays and deleting picture files
@@ -17,8 +15,8 @@ public class PictureLoadTestRu {
         formArrays();
         deletePictures();
     }
-    @Test
+    @Test //Perform testing
     public void statusCodeTest() throws IOException {
-        PictureLoaderRuLogic.getStatusCodes();
+        PictureLoaderOldLogic.imageCheck();
     }
 }

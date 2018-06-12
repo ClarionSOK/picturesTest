@@ -1,4 +1,4 @@
-package pictureTester;
+package marketgidPictureTest;
 
 
 import org.junit.Assert;
@@ -18,34 +18,40 @@ import static io.restassured.RestAssured.when;
 
 
 
-public class PictureLoaderRuLogic {
+public class PictureLoaderOldLogic {
 
     private static String domainsPathRu = "src/files/domainsRu.txt";
     private static String domainsPathUs = "src/files/domainsUs.txt";
     private static String domainsPath = domainsPathRu;
+    private static String[] domainsList;
+    private static int domainsListIndex = 0;
+
     private static String sizesPathRu = "src/files/sizesRu.txt";
     private static String sizesPathUs = "src/files/sizesUs.txt";
     private static String sizesPath = sizesPathRu;
-    private static String[] domainsList;
     private static String[] sizesList;
-    private static int domainsNumber = 0;
-    private static int sizeListNumber = 0;
+    private static int sizeListIndex = 0;
+    private static String actualSize;
+
+
     private static String imageLink;
     private static BufferedImage image = null;
     private static URL url;
-    private static String size;
-    private static String picturesFolderPathRu = "src/files/picturesRu";
-    private static String picturesFolderPathUs = "src/files/picturesUs";
+    private static String picturesFolderPathRu = "src/files/picturesOldRu";
+    private static String picturesFolderPathUs = "src/files/picturesOldUs";
     private static String picturesFolderPath = picturesFolderPathRu;
+
     private static String teaserRu = "/57471/57471266_";
     private static String teaserUs = "/2757/2757134_";
     private static String teaser = teaserRu;
+
     private static String protocol = "http://";
     private static String protocolName = "http";
-    private static int iterationNumber = 0;
 
-    //private static String
+    private static int iterationIndex = 0;
 
+
+    //Form arrays of domains and sizes from files
     public static void formArrays(){
         try {
             readDomains(domainsPath);
@@ -59,7 +65,7 @@ public class PictureLoaderRuLogic {
         }
     }
 
-
+    //Deleting old pictures before test
     public static boolean deletePictures(){
         boolean flag = false;
         for (File picture : new File(picturesFolderPath).listFiles()) {
@@ -103,35 +109,38 @@ public class PictureLoaderRuLogic {
 
     
     //Forming links and checking its status codes and parameters, saving pictures to folder
-    public static void getStatusCode() throws IOException {
-        imageLink = protocol + domainsList[domainsNumber] + teaser + sizesList[sizeListNumber] + ".jpg";
+    public static void getImage() throws IOException {
+        imageLink = protocol + domainsList[domainsListIndex] + teaser + sizesList[sizeListIndex] + ".jpg";
         when().
                 get(imageLink).
                 then().assertThat().statusCode(200);
         System.out.println(imageLink);
         url = new URL(imageLink);
         image = ImageIO.read(url);
-        size = image.getWidth() + "x" + image.getHeight();
-        System.out.println(size);
-        Assert.assertEquals(size, sizesList[sizeListNumber]);
-        File outputPicture = new File(picturesFolderPath + "/" + protocolName + "_" + domainsList[domainsNumber]  +  "_" + sizesList[sizeListNumber]  + ".jpg");
+        actualSize = image.getWidth() + "x" + image.getHeight();
+        System.out.println(actualSize);
+        if (!((sizesList[sizeListIndex]).equals("quadratic")) && !((sizesList[sizeListIndex]).equals("origin"))) {
+            Assert.assertEquals(actualSize, sizesList[sizeListIndex]);
+        }
+        File outputPicture = new File(picturesFolderPath + "/" + protocolName + "_" + domainsList[domainsListIndex]  +  "_" + sizesList[sizeListIndex]  + ".jpg");
         ImageIO.write(image, "jpg", outputPicture);
     }
     //Parsing arrays
-    public static void getStatusCodes() throws IOException {
-        while (sizeListNumber < sizesList.length && domainsNumber < domainsList.length && iterationNumber < 4) {
-            getStatusCode();
-            sizeListNumber++;
-            if (sizeListNumber == 20) {
-                sizeListNumber = 0;
-                domainsNumber++;
+    public static void imageCheck() throws IOException {
+        while (sizeListIndex < sizesList.length && domainsListIndex < domainsList.length && iterationIndex < 4) {
+            getImage();
+            sizeListIndex++;
+            if (sizeListIndex == sizesList.length) {
+                sizeListIndex = 0;
+                domainsListIndex++;
                 System.out.println("=============================================");
-                if (domainsNumber == domainsList.length){
+                if (domainsListIndex == domainsList.length){
                     protocol = "https://";
                     protocolName = "https";
-                    iterationNumber ++;
-                    domainsNumber = 0;
-                    if (iterationNumber == 2){
+                    System.out.println("********************** End of iteration #" + iterationIndex + " **********************");
+                    iterationIndex++;
+                    domainsListIndex = 0;
+                    if (iterationIndex == 2){
                         teaser = teaserUs;
                         domainsPath = domainsPathUs;
                         sizesPath = sizesPathUs;
