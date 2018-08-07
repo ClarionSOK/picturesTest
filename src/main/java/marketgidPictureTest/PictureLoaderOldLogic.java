@@ -41,8 +41,8 @@ public class PictureLoaderOldLogic {
     private static String picturesFolderPathUs = "src/files/picturesOldUs";
     private static String picturesFolderPath = picturesFolderPathRu;
 
-    private static String teaserRu = "/57471/57471266_";
-    private static String teaserUs = "/2757/2757134_";
+    private static String teaserRu = "/2549/2549810_";
+    private static String teaserUs = "/2549/2549810_";
     private static String teaser = teaserRu;
 
     private static String protocol = "http://";
@@ -66,16 +66,12 @@ public class PictureLoaderOldLogic {
     }
 
     //Deleting old pictures before test
-    public static boolean deletePictures(){
-        boolean flag = false;
+    public static void deletePictures(){
         for (File picture : new File(picturesFolderPath).listFiles()) {
-            if (picture.isFile()) {
+            while (picture.isFile()) {
                 picture.delete();
-            } else {
-                flag = true;
             }
         }
-        return flag;
     }
     //Read file with domains and converts to array
     public static void readDomains(String filename) throws IOException {
@@ -111,10 +107,10 @@ public class PictureLoaderOldLogic {
     //Forming links and checking its status codes and parameters, saving pictures to folder
     public static void getImage() throws IOException {
         imageLink = protocol + domainsList[domainsListIndex] + teaser + sizesList[sizeListIndex] + ".jpg";
+        System.out.println(imageLink);
         when().
                 get(imageLink).
                 then().assertThat().statusCode(200);
-        System.out.println(imageLink);
         url = new URL(imageLink);
         image = ImageIO.read(url);
         actualSize = image.getWidth() + "x" + image.getHeight();
@@ -122,8 +118,8 @@ public class PictureLoaderOldLogic {
         if (!((sizesList[sizeListIndex]).equals("quadratic")) && !((sizesList[sizeListIndex]).equals("origin"))) {
             Assert.assertEquals(actualSize, sizesList[sizeListIndex]);
         }
-        File outputPicture = new File(picturesFolderPath + "/" + protocolName + "_" + domainsList[domainsListIndex]  +  "_" + sizesList[sizeListIndex]  + ".jpg");
-        ImageIO.write(image, "jpg", outputPicture);
+        //File outputPicture = new File(picturesFolderPath + "/" + protocolName + "_" + domainsList[domainsListIndex]  +  "_" + sizesList[sizeListIndex]  + ".jpg");
+        //ImageIO.write(image, "jpg", outputPicture);
     }
     //Parsing arrays
     public static void imageCheck() throws IOException {
@@ -135,8 +131,8 @@ public class PictureLoaderOldLogic {
                 domainsListIndex++;
                 System.out.println("=============================================");
                 if (domainsListIndex == domainsList.length){
-                    protocol = "https://";
-                    protocolName = "https";
+                    protocol = "http://";
+                    protocolName = "http";
                     System.out.println("********************** End of iteration #" + iterationIndex + " **********************");
                     iterationIndex++;
                     domainsListIndex = 0;

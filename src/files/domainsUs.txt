@@ -1,3 +1,1 @@
-imgg.mgid.com
-imgg.adskeeper.co.uk
-imgg.idealmedia.com
+imgg.alpha.mgid.com/go/8096

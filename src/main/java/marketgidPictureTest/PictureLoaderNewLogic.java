@@ -64,7 +64,7 @@ public class PictureLoaderNewLogic {
     private static int extensionIndex = 0;
 
     //Various
-    private static String base64Link = "aHR0cHM6Ly9pbWdnLWNkbi5tZ2lkLmNvbS8yNDk3LzI0OTc5OTJfNDkyeDMyOC5qcGc";
+    private static String base64Link = "aHR0cDovL2JpcGJhcC5ydS93cC1jb250ZW50L3VwbG9hZHMvMjAxNy8wNi90bWJfMTQ1MDM3XzY2MTEuanBn";
     private static URL url;
     private static int iterationIndex = 0;
 
@@ -176,12 +176,12 @@ public class PictureLoaderNewLogic {
         actualSize = image.getWidth() + "x" + image.getHeight();
         System.out.println(actualSize);
         Assert.assertEquals(actualSize, sizesList[sizeListIndex]);
-        outputPicture = new File( picturesFolderPathRu + "/" + protocolName + "_" + URLEncoder.encode(domainsList[domainsListIndex], "UTF-32") + "_" + campaignType[campaignTypeIndex] + "_" + sizesList[sizeListIndex] + extension[extensionIndex]);
+        outputPicture = new File( picturesFolderPath + "/" + protocolName + "_" + URLEncoder.encode(domainsList[domainsListIndex], "UTF-32") + "_" + campaignType[campaignTypeIndex] + "_" + sizesList[sizeListIndex] + extension[extensionIndex]);
         ImageIO.write(image, "jpg", outputPicture);
     }
 
     public static void checkStandardParametersImageLink() throws IOException {
-        while (sizeListIndex < sizesList.length && domainsListIndex < domainsList.length && iterationIndex < 2) {
+        while (sizeListIndex < sizesList.length && domainsListIndex < domainsList.length && iterationIndex < 4) {
             getStandardParametersImageLink();
             sizeListIndex++;
             if (sizeListIndex == sizesList.length){
@@ -228,7 +228,7 @@ public class PictureLoaderNewLogic {
     }
     //
     public static void checkLinksWithDifferentCrops() throws IOException, NoSuchAlgorithmException {
-        while (cropedImagesListIndex < 3 /** cropedImagesList.length */) {
+        while (cropedImagesListIndex < 4 /** cropedImagesList.length */) {
             getLinksWithDifferentCrops();
             cropedImagesListIndex++;
             etalonImageListIndex++;

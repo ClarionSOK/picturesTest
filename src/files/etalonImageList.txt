@@ -1,3 +1,4 @@
 src/files/etalonImages/etalon_0_50x10x492x328.jpg
 src/files/etalonImages/etalon_1_0x0x1280x800.gif
 src/files/etalonImages/etalon_2_0x0x640x400.jpg
+src/files/etalonImages/etalon_3_-1280x-800x1280x800.gif
